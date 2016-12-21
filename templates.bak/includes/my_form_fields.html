@@ -1,0 +1,24 @@
+{% load mezzanine_tags myfilters widget_tweaks %}
+
+{% nevercache %}
+    <input type="hidden" name="referrer" value="{{ request.META.HTTP_REFERER }}">
+    {% csrf_token %}
+{% endnevercache %}
+
+{% for field in form_for_fields %}
+    {% if field.is_hidden %}
+        {{ field }}
+    {% else %}
+        <div class="form-group input_{{ field.id_for_label }} {{ field.field.type }}
+    {% if field.errors %} has-error{% endif %}">
+            {% if field.name != "comment" %}
+                {#                <label>{{ field.label }}</label>#}
+                {{ field.as_hidden }}
+            {% else %}
+                {#                <label>{{ field.label }}</label>#}
+                {{ field|attr:'cols:30'|attr:'rows:5' }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}
+

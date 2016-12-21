@@ -1,0 +1,35 @@
+{% load mezzanine_tags myfilters %}
+
+{% nevercache %}
+    <input type="hidden" name="referrer" value="{{ request.META.HTTP_REFERER }}">
+    {% csrf_token %}
+{% endnevercache %}
+
+{% for field in form_for_fields %}
+    {% if field.is_hidden %}
+        {{ field }}
+    {% else %}
+        <div class="form-group input_{{ field.id_for_label }} {{ field.field.type }}
+    {% if field.errors %} has-error{% endif %}">
+
+            {#        <label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>#}
+            {% if field.label %}
+                {#                {{ field|addclass:"form-group form-control rounded input-lg text-center no-border"|addplaceholder:"field.help_text" }}#}
+                {{ field|placeholder:field.label|addclass:"form-group form-control rounded input-lg text-center no-border" }}
+                {#                {{ field|addplaceholder:"field.help_text"|addcss:"form-group form-control rounded input-lg text-center no-border" }}#}
+                {#                {{ field|addclass:"form-group form-control rounded input-lg text-center no-border" }}#}
+            {% else %}
+                {{ field|addclass:"form-group form-control rounded input-lg text-center no-border" }}
+            {% endif %}
+            {% if field.errors %}
+                <p class="help-block">
+                    {% for e in field.errors %}
+                        {% if not forloop.first %} / {% endif %}{{ e }}
+                    {% endfor %}
+                </p>
+            {% elif field.help_text %}
+                <p class="help-block">{{ field.help_text }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}

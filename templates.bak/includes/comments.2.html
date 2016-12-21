@@ -1,0 +1,33 @@
+{% load i18n mezzanine_tags my_comment_tags myfilters %}
+{% if settings.COMMENTS_DISQUS_SHORTNAME %}
+    {% include "includes/disqus_comments.html" %}
+{% else %}
+    <script src="{{ STATIC_URL }}firefly/js/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $('.reply').click(function () {
+                $('.comment-reply-form').hide();
+                $(this).siblings('.comment-reply-form').toggle();
+            });
+        });
+    </script>
+    <style>
+        .input_id_honeypot {
+            display: none !important;
+        }
+    </style>
+        {% my_comment_thread object_for_comments %}
+{#    {% my_comment_thread obj %}#}
+    <h4 class="m-t-lg m-b">{% trans "发表评论" %}</h4>
+    <form method="post" id="comment" action="{{ comment_url }}#comment">
+        {% if not request.POST.replied_to %}
+            {% my_fields_for posted_comment_form %}
+        {% else %}
+            {% my_fields_for unposted_comment_form %}
+        {% endif %}
+        <div class="form-actions">
+            <input class="btn btn-success" type="submit" value="{% trans "提交" %}">
+        </div>
+    </form>
+{% endif %}
+

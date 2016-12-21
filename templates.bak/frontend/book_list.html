@@ -1,0 +1,103 @@
+{% extends "layout/base.html" %}
+{% load i18n mezzanine_tags blog_tags keyword_tags disqus_tags myfilters %}
+
+{#{% block meta_title %}{% if page %}{{ page.meta_title }}{% else %}{% trans "Blog dasda " %}{% endif %}{% endblock %}#}
+{% block meta_title %}{% trans "Blog dasda " %}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+    {% keywords_for page as keywords %}
+    {% for keyword in keywords %}
+        {% if not forloop.first %}, {% endif %}
+        {{ keyword }}
+    {% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+    {{ page.description }}
+{% endmetablock %}{% endblock %}
+
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    {% if tag or category or year or month or author %}
+        <li>{% spaceless %}
+            {% if tag %}
+                {% trans "Tag:" %} {{ tag }}
+                {% else %}{% if category %}
+                    {% trans "Category:" %} {{ category }}
+                    {% else %}{% if year or month %}
+                        {% if month %}{{ month }}, {% endif %}{{ year }}
+                        {% else %}{% if author %}
+                            {% trans "Author:" %} {{ author.get_full_name|default:author.username }}
+                        {% endif %}{% endif %}{% endif %}{% endif %}
+        {% endspaceless %}
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="row row-sm">
+        {% for blog_post in blog_posts.object_list %}
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="item">
+                    <div class="pos-rlt">
+                        <div class="bottom">
+                            <span class="badge bg-info m-l-sm m-b-sm">03:20</span>
+                        </div>
+                        <div class="item-overlay opacity r r-2x bg-black">
+                            <div class="text-info padder m-t-sm text-sm">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o text-muted"></i>
+                            </div>
+                            <div class="center text-center m-t-n">
+                                <a href="{{ blog_post.get_absolute_url }}"><i class="icon-control-play i-2x"></i></a>
+                            </div>
+                            <div class="bottom padder m-b-sm">
+                                <a href="#" class="pull-right">
+                                    <i class="fa fa-heart-o"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+                            {% block blog_post_list_post_featured_image %}
+                                <a href="{{ blog_post.get_absolute_url }}"><img
+                                        src="{{ MEDIA_URL }}{% my_thumbnail blog_post.featured_image 127 190 %}" alt=""
+                                        class="r r-2x img-full"></a>
+                            {% endblock %}
+                        {% endif %}
+                    </div>
+                    <div class="padder-v">
+                        {% block blog_post_list_post_title %}
+                            {% editable blog_post.title %}
+                                <a href="{{ blog_post.get_absolute_url }}"
+                                   class="text-ellipsis">{{ blog_post|get_meta_title }}</a>
+                            {% endeditable %}
+                        {% endblock %}
+                        {% with blog_post.author as author %}
+                            <a href="{% url "blog_post_list_author" author %}"
+                               class="text-ellipsis text-xs text-muted">{{ blog_post.title }}</a>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+    {% my_pagination_for blog_posts %}
+
+    {% if settings.COMMENTS_DISQUS_SHORTNAME %}
+        {% include "generic/includes/disqus_counts.html" %}
+    {% endif %}
+
+{% endblock %}
+
+{% block sidecontent %}
+    {% include "includes/filter_panel.html" %}
+{% endblock %}

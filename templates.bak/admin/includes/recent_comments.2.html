@@ -1,0 +1,23 @@
+{% load i18n mezzanine_tags myfilters %}
+
+<h3 class="font-thin">{% trans "最新评论" %}</h3>
+{% if settings.COMMENTS_DISQUS_SHORTNAME %}
+    <script src="//{{ settings.COMMENTS_DISQUS_SHORTNAME }}.disqus.com/recent_comments_widget.js?num_items={{ settings.COMMENTS_NUM_LATEST }}&hide_avatars=0&avatar_size=32&excerpt_length=200"></script>
+{% else %}
+    <div class="list-group bg-white list-group-lg no-bg auto">
+        {% for comment in comments %}
+            <a href="{{ comment.get_absolute_url }}" class="list-group-item clearfix">
+                <span class="pull-right h2 text-muted m-l">{{ forloop.counter }}</span>
+                <span class="pull-left thumb-sm avatar m-r">
+                    <img src="{{ MEDIA_URL }}{% my_gravatar_url comment.email %}" , alt="...">
+                          </span>
+                <span class="clear">
+                            <span>对 《{{ comment.content_object|get_meta_title }}》 发表评论：{{ comment.intro }}</span>
+                            <small class="text-muted clear text-ellipsis">by {{ comment.user_name }}
+                                {% blocktrans with sometime=comment.submit_date|timesince %}{{ sometime }}
+                                    ago{% endblocktrans %}</small>
+                          </span>
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}

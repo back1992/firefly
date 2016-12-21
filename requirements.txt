@@ -1,0 +1,12 @@
+Mezzanine
+django-location-field
+django-admin-tools
+django-hitcount
+django-durationfield
+mutagen
+django-widget-tweaks
+django-taggit
+django-modeladmin-reorder
+django-ordered-model
+django-audiofield
+django-admin-sortable2

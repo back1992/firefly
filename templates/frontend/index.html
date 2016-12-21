@@ -1,0 +1,124 @@
+{% extends "layout/base.html" %}
+{% load i18n mezzanine_tags blog_tags keyword_tags disqus_tags comment_tags myfilters %}
+
+{% block main %}
+    <div class="row row-sm">
+        {% for blog_post in blog_posts.object_list %}
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="item">
+                    <div class="pos-rlt">
+                        <div class="bottom">
+                            <span class="badge bg-info m-l-sm m-b-sm">03:20</span>
+                        </div>
+                        <div class="item-overlay opacity r r-2x bg-black">
+                            <div class="text-info padder m-t-sm text-sm">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o text-muted"></i>
+                            </div>
+                            <div class="center text-center m-t-n">
+                                <a href="{{ blog_post.get_absolute_url }}"><i class="icon-control-play i-2x"></i></a>
+                            </div>
+                            <div class="bottom padder m-b-sm">
+                                <a href="#" class="pull-right">
+                                    <i class="fa fa-heart-o"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-plus-circle"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+                            {% block blog_post_list_post_featured_image %}
+                                <a href="{{ blog_post.get_absolute_url }}"><img
+                                        src="{{ MEDIA_URL }}{% my_thumbnail blog_post.featured_image 127 190 %}" alt=""
+                                        class="r r-2x img-full"></a>
+                            {% endblock %}
+                        {% endif %}
+                    </div>
+                    <div class="padder-v">
+                        {% block blog_post_list_post_title %}
+                            {% editable blog_post.title %}
+                                <a href="{{ blog_post.get_absolute_url }}"
+                                   class="text-ellipsis">{{ blog_post|get_meta_title }}</a>
+                            {% endeditable %}
+                        {% endblock %}
+                        {% with blog_post.author as author %}
+                            <a href="{% url "blog_post_list_author" author %}"
+                               class="text-ellipsis text-xs text-muted">{{ blog_post.title }}</a>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <h3 class="font-thin">新书上架</h3>
+            <div class="row row-sm">
+                {% block blog_recent_posts %}
+                    {% blog_recent_books 8 as recent_posts %}
+                    {% if recent_posts %}
+                        {% for recent_post in recent_posts %}
+                            <div class="col-xs-6 col-sm-3">
+                                <div class="item">
+                                    <div class="pos-rlt">
+                                        <div class="item-overlay opacity r r-2x bg-black">
+                                            <div class="center text-center m-t-n">
+                                                <a href="{{ recent_post.get_absolute_url }}"><i
+                                                        class="fa fa-play-circle i-2x"></i></a>
+                                            </div>
+                                        </div>
+                                        {% spaceless %}
+                                            <a href="{{ recent_post.get_absolute_url }}">
+                                                {% if settings.BLOG_USE_FEATURED_IMAGE and recent_post.featured_image %}
+                                                    <img src="
+
+
+
+
+
+
+
+
+
+
+                                                            {{ MEDIA_URL }}{% my_thumbnail recent_post.featured_image 136 136 %}"
+                                                         alt="" class="r r-2x img-full">
+                                                {% endif %}
+                                            </a>
+                                        {% endspaceless %}
+                                    </div>
+                                    <div class="padder-v">
+                                        <a href="{{ recent_post.get_absolute_url }}"
+                                           class="text-ellipsis">{{ recent_post|get_meta_title }}</a>
+                                        <a href="{{ recent_post.get_absolute_url }}"
+                                           class="text-ellipsis text-xs text-muted">{{ recent_post.title }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endblock %}
+
+            </div>
+        </div>
+        <div class="col-md-5">
+            {% block blog_recent_commets %}
+                {% recent_comments %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {% if settings.COMMENTS_DISQUS_SHORTNAME %}
+        {% include "generic/includes/disqus_counts.html" %}
+    {% endif %}
+
+{% endblock %}
+
+{% block sidecontent %}
+    {% include "includes/filter_panel.html" %}
+{% endblock %}

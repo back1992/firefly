@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+<head>
+    <meta charset="utf-8"/>
+    <title>{% if settings.SITE_TITLE %}  {{ settings.SITE_TITLE }}{% endif %}</title>
+    <meta name="description"
+          content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- LOADING -->
+    {% load staticfiles i18n %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{% static 'firefly/js/jPlayer/jplayer.flat.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static 'firefly/css/bootstrap.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static 'firefly/css/animate.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static 'firefly/css/font-awesome.min.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static 'firefly/css/simple-line-icons.css' %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static "firefly/css/font.css" %}" type="text/css"/>
+        <link rel="stylesheet" href="{% static 'firefly/css/app.css' %}" type="text/css"/>
+        <!--[if lt IE 9]>
+    <script src="{% static 'firefly/js/ie/html5shiv.js' %}"></script>
+    <script src="{% static 'firefly/js/ie/respond.min.js' %}"></script>
+    <script src="{% static 'firefly/js/ie/excanvas.js' %}"></script>
+      <![endif]-->
+    {% endblock %}
+</head>
+<body class="bg-info dker">
+<!-- CONTENT -->
+{% block content %}
+    {{ content }}
+{% endblock %}
+<!-- footer -->
+{% block footer %}
+    <footer id="footer">
+        <div class="text-center padder">
+            <p>
+                <small>{% if settings.SITE_TITLE %} {{ settings.SITE_TITLE }}{% endif %}<br>&copy; 2014</small>
+            </p>
+        </div>
+    </footer>
+{% endblock %}
+<!-- / footer -->
+<!-- JAVASCRIPTS / EXTRAHEAD -->
+{% block javascripts %}
+    <script type="text/javascript" src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+    <script type="text/javascript">
+        // Ensures jQuery does not pollute the global namespace
+        $.noConflict();
+        {% url "admin:index" as admin_index_url %}
+        var ADMIN_URL = "{{ admin_index_url }}";
+    </script>
+    <script src="{% static 'firefly/js/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static 'firefly/js/bootstrap.js' %}"></script>
+    <!-- App -->
+    <script src="{% static 'firefly/js/app.js' %}"></script>
+    <script src="{% static 'firefly/js/slimscroll/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'firefly/js/app.plugin.js' %}"></script>
+    <script src="{% static 'firefly/js/jPlayer/jquery.jplayer.min.js' %}"></script>
+    <script src="{% static 'firefly/js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
+    <script src="{% static 'firefly/js/jPlayer/demo.js' %}"></script>
+{% endblock %}
+</body>
+</html>

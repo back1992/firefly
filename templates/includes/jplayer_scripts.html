@@ -1,0 +1,82 @@
+{% load mezzanine_tags static %}
+
+{% editable_loader %}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var mylist = [
+            {% for chapter in chapter_list %}
+                {
+                    title: "{{ chapter.title }}",
+                    artist: "{{ chapter.bookid.author }}",
+                    content: "{{ chapter.content|linebreaksbr }}",
+                    mp3: "{{ chapter.audio_file.url }}",
+                    poster: "{% static "firefly/images/m0.jpg" %}"
+                },
+            {% endfor %}
+        ]
+
+        {#        (typeof mylist != 'undefined') ? mylist = mylist : mylist = []#}
+        var myPlaylist = new jPlayerPlaylist({
+            jPlayer: "#jplayer_N",
+            cssSelectorAncestor: "#jp_container_N"
+        }, mylist, {
+            playlistOptions: {
+                enableRemoveControls: true,
+                autoPlay: true
+            },
+            swfPath: "js/jPlayer",
+            supplied: "webmv, ogv, m4v, oga, mp3",
+            smoothPlayBar: true,
+            keyEnabled: true,
+            audioFullScreen: false
+        });
+
+{#        $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer, function () {#}
+{#            $('.musicbar').removeClass('animate');#}
+{#            $('.jp-play-me').removeClass('active');#}
+{#            $('.jp-play-me').parent('li').removeClass('active');#}
+{#        });#}
+{##}
+{#        $(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer, function () {#}
+{#            $('.musicbar').addClass('animate');#}
+{#        });#}
+{##}
+{#        $(document).on('click', '.jp-playlist-item', function (e) {#}
+{#            e && e.preventDefault();#}
+{#            var $this = $(e.target);#}
+{#            if (!$this.is('a')) $this = $this.closest('a');#}
+{#            a#}
+{#            console.log(this.playlist[a].content)#}
+{#            $('#lrc_list').html(this.playlist[a].content)#}
+{##}
+{##}
+{#        });#}
+
+
+        // video
+
+        $("#jplayer_1").jPlayer({
+            ready: function () {
+                $(this).jPlayer("setMedia", {
+                    title: "Big Buck Bunny",
+                    m4v: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.m4v",
+                    ogv: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.ogv",
+                    webmv: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.webm",
+                    poster: "images/m41.jpg"
+                });
+            },
+            swfPath: "js",
+            supplied: "webmv, ogv, m4v",
+            size: {
+                width: "100%",
+                height: "auto",
+                cssClass: "jp-video-360p"
+            },
+            globalVolume: true,
+            smoothPlayBar: true,
+            keyEnabled: true
+        });
+
+    });
+</script>

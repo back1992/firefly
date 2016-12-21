@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ssh://root@122.114.34.108:2222/usr/bin/python" name="ssh://root@122.114.34.108:2222/usr/bin/python" url="http://122.114.34.108:8000">
+        <fileTransfer host="122.114.34.108" port="2222" rootFolder="/data/project/firefly" accessType="SFTP">
+          <option name="port" value="2222" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

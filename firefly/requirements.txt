@@ -1,0 +1,7 @@
+Mezzanine
+django-location-field
+django-admin-tools
+django-hitcount
+django-durationfield
+mutagen
+django-widget-tweaks

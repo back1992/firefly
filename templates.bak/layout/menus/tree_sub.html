@@ -1,0 +1,17 @@
+{% load i18n myfilters %}
+{% if page_branch_in_menu %}
+    <ul class="nav dk text-sm">
+        {% for page in page_branch %}
+            <li>
+                <a href="{{ page.get_absolute_url }}" class="auto">
+                    <i class="fa fa-angle-right text-xs"></i>
+
+                    <span>{{ page.title }}</span>
+                </a>
+                {% if page.has_children_in_menu %}
+                    {% my_page_menu page "layout/menus/tree_sub.html" %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

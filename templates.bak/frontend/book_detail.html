@@ -1,0 +1,115 @@
+{% extends "layout/base.html" %}
+{% load static mezzanine_tags my_comment_tags keyword_tags rating_tags i18n disqus_tags myfilters %}
+
+{% block meta_title %}{{ blog_post.meta_title }}{% endblock %}
+
+
+{% block meta_description %}{% metablock %}
+    {{ blog_post.description }}
+{% endmetablock %}{% endblock %}
+
+{% block title %}
+    {% editable blog_post.title %}{{ blog_post.title }}{% endeditable %}
+{% endblock %}
+
+{% block breadcrumb_menu %}
+    {{ block.super }}
+    <li class="active">{{ blog_post.title }}</li>
+{% endblock %}
+
+{% block main %}
+    <section class="hbox stretch">
+        <aside class="aside-lg bg-light lter b-r">
+            <section class="vbox">
+                <section class="scrollable">
+                    <div class="wrapper">
+                        <div class="text-center m-b m-t">
+                            {% block blog_post_detail_featured_image %}
+                                {% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+                                    <img class="img-responsive"
+                                         src="{{ MEDIA_URL }}{% thumbnail blog_post.featured_image 180 0 %}">
+                                {% endif %}
+                            {% endblock %}
+                        </div>
+                        <div>
+                            <div class="h3 m-t-xs m-b-xs">{{ blog_post|get_meta_title }} </div>
+                            <small class="text-muted">{{ blog_post.title }}
+                            </small>
+                        </div>
+                        <div>
+                            <p>作者：{{ blog_post|get_author }}</p>
+                            {% my_keywords_for blog_post as tags %}
+                            {#                                <div class="clearfix m-b-lg">#}
+                            <a href="/" class="thumb-sm pull-left m-r"></a>
+
+                            {% if tags %}
+                                <ul class="list-inline tags">
+                                    {% trans "Tags" %}:
+                                    {% spaceless %}
+                                        {% for tag in tags %}
+                                            <li><a href="{% url "blog_post_list_tag" tag.slug %}"
+                                                   class="badge bg-light">{{ tag }}</a>{% if not forloop.last %}
+                                                , {% endif %}</li>
+                                        {% endfor %}
+                                    {% endspaceless %}
+                                </ul>
+                            {% endif %}
+                            <small class="text-uc text-xs text-muted">内容简介</small>
+                            <p>{{ blog_post.content|safe }}</p>
+                            <div class="line"></div>
+                            <small class="text-uc text-xs text-muted">connection</small>
+                            <p class="m-t-sm">
+                                <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i
+                                        class="fa fa-twitter"></i></a>
+                                <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i
+                                        class="fa fa-facebook"></i></a>
+                                <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i
+                                        class="fa fa-google-plus"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </aside>
+        <aside class="bg-white">
+            <section class="vbox">
+                <header class="panel-heading text-center" id="lrc-title">
+                    章节内容
+                    <i class="fa fa-info-sign text-muted" data-toggle="tooltip" data-placement="bottom"
+                       data-title="ajax to load the data."></i>
+                </header>
+                <section class="scrollable">
+                    <div class="panel panel-default">
+                        <div class="panel-heading, jp-title, text-center"></div>
+                        <div class="panel-body, jp-content" id="lrc-content">
+                            {% autoescape on %}
+                                {{ chapter_content|linebreaksbr }}
+                            {% endautoescape %}
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </aside>
+        <aside class="col-lg-3 b-l">
+            <section class="vbox">
+                <section class="scrollable padder-v">
+                    <div class="panel">
+                        <h4 class="font-thin padder text-center">最新评论</h4>
+                        {% block blog_post_detail_comments %}
+                            {% if blog_post.allow_comments %}{% my_comments_for blog_post %}{% endif %}
+                        {% endblock %}
+                    </div>
+                </section>
+            </section>
+        </aside>
+    </section>
+{% endblock %}
+
+{% block right_panel %}
+{% endblock %}
+{% block sidecontent %}
+{% endblock %}
+
+{#{% block footer_js %}#}
+{#    {% include "includes/jplayer_scripts.html" %}#}
+{#{% endblock %}#}
