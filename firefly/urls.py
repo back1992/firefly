@@ -7,7 +7,7 @@ from django.views.i18n import set_language
 import frontend.views
 from mezzanine.core.views import direct_to_template
 from mezzanine.conf import settings
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
 
 _slash = "/" if settings.APPEND_SLASH else ""
 
@@ -22,6 +22,7 @@ urlpatterns = i18n_patterns(
     # admin interface, which would be marginally more secure.
     url("^admin/", include(admin.site.urls)),
 )
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.USE_MODELTRANSLATION:
     urlpatterns += [
@@ -118,4 +119,3 @@ urlpatterns += [
 handler404 = "mezzanine.core.views.page_not_found"
 handler500 = "mezzanine.core.views.server_error"
 
-urlpatterns += staticfiles_urlpatterns()

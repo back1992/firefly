@@ -5,3 +5,5 @@
 .coverage
 local_settings.py
 /static
+/templates.bak/
+/musik-music-html-mobantu.com/
