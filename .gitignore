@@ -7,3 +7,13 @@ local_settings.py
 /static
 /templates.bak/
 /musik-music-html-mobantu.com/
+.idea/workspace.xml
+firefly/__pycache__/
+firefly/firefly/__pycache__/
+firefly/frontend/__pycache__/
+firefly/frontend/migrations/__pycache__/
+firefly/frontend/templatetags/__pycache__/
+frontend/__pycache__/
+frontend/migrations/__pycache__/
+frontend/templatetags/__pycache__/
+logs/
