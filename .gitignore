@@ -19,3 +19,4 @@ frontend/templatetags/__pycache__/
 logs/
 /media/
 /static/
+/dev.db

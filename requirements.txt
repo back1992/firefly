@@ -10,3 +10,9 @@ django-modeladmin-reorder
 django-ordered-model
 django-audiofield
 django-admin-sortable2
+django-tinymce
+djangorestframework
+markdown
+django-filter
+pygments
+django-celery

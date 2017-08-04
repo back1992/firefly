@@ -184,6 +184,7 @@ STATIC_URL = "/static/"
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip("/"))
+# STATIC_ROOT = "/home/ubuntu/firefly/static/"
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -193,15 +194,7 @@ MEDIA_URL = STATIC_URL + "media/"
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, *MEDIA_URL.strip("/").split("/"))
-
-# STATICFILES_DIRS = (
-#     os.path.join(PROJECT_ROOT, 'static'),
-# )
-# List of finder classes that know how to find static files in various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
+# MEDIA_ROOT = "/home/ubuntu/firefly/media/"
 
 # Package/module name to import the root urlpatterns from for the project.
 ROOT_URLCONF = "%s.urls" % PROJECT_APP
@@ -272,6 +265,8 @@ INSTALLED_APPS = (
     'hitcount',
     "audiofield",
     "widget_tweaks",
+    # 'rest_framework',
+    # 'snippets',
     # my app
     "frontend",
 )
@@ -318,7 +313,7 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
 # These will be added to ``INSTALLED_APPS``, only if available.
 OPTIONAL_APPS = (
-    "debug_toolbar",
+    # "debug_toolbar",
     "django_extensions",
     "compressor",
     PACKAGE_NAME_FILEBROWSER,
@@ -365,9 +360,8 @@ except ImportError:
 else:
     set_dynamic_settings(globals())
 
-LOCALE_PATHS = (
-    os.path.join(PROJECT_ROOT, 'locale/'),
-)
+# LOCALE_PATHS = (
+#     os.path.join(PROJECT_ROOT, 'locale/'),
+# )
 
 # APPEND_SLASH = False
-# STATIC_ROOT = os.path.join(BASE_DIR, "static/")

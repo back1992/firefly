@@ -7,7 +7,6 @@ from django.views.i18n import set_language
 import frontend.views
 from mezzanine.core.views import direct_to_template
 from mezzanine.conf import settings
-from django.conf.urls.static import static
 
 _slash = "/" if settings.APPEND_SLASH else ""
 
@@ -22,7 +21,6 @@ urlpatterns = i18n_patterns(
     # admin interface, which would be marginally more secure.
     url("^admin/", include(admin.site.urls)),
 )
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.USE_MODELTRANSLATION:
     urlpatterns += [
@@ -43,7 +41,7 @@ urlpatterns += [
     # url("^$", direct_to_template, {"template": "index.html"}, name="home"),
     url(r'^$', frontend.views.index, name='home'),
     url("^search%s$" % _slash, frontend.views.search, name="search"),
-    # url("^comment%s$" % _slash, frontend.views.comment, name="comment"),
+    url("^comment%s$" % _slash, frontend.views.comment, name="comment"),
     url(r'^frontend/', include('frontend.urls', namespace='frontend')),
 
     # url(r'^hitcount-detail-view/(?P<pk>\d+)/$',
@@ -118,4 +116,3 @@ urlpatterns += [
 # pages can use JS, CSS and images.
 handler404 = "mezzanine.core.views.page_not_found"
 handler500 = "mezzanine.core.views.server_error"
-

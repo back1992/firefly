@@ -43,9 +43,9 @@ def book_detail(request, slug, chapter=0, position=None,
     related_posts = blog_post.related_posts.published(for_user=request.user)
     try:
         chapter_list = Chapter.objects.filter(book_id=blog_post.id).order_by('no')
-        chapter_list = paginate(chapter_list, request.GET.get("page", 1),
-                                10,
-                                settings.MAX_PAGING_LINKS)
+        # chapter_list = paginate(chapter_list, request.GET.get("page", 1),
+        #                         10,
+        #                         settings.MAX_PAGING_LINKS)
         chapter_content = chapter_list[0].content
     except:
         chapter_content = ''
@@ -59,7 +59,6 @@ def book_detail(request, slug, chapter=0, position=None,
                 last_chapter = position_list[0].chapter
             except:
                 position = None
-
     context = {"blog_post": blog_post, "editable_obj": blog_post,
                "related_posts": related_posts, 'chapter_list': chapter_list, 'last_chapter': last_chapter,
                'chapter_content': chapter_content,
@@ -107,7 +106,6 @@ def chapter_list(request, slug, chapter=0, position=None,
                'position': position, }
     context.update(extra_context or {})
     templates = [u"frontend/chapter_list_%s.html" % str(slug), template]
-    print(templates)
     return TemplateResponse(request, templates, context)
 
 
@@ -120,7 +118,6 @@ def book_list(request, tag=None, year=None, month=None, username=None,
     ``blog/blog_post_list_XXX.html`` where ``XXX`` is either the
     category slug or author's username if given.
     """
-    print(request)
     templates = []
     # blog_posts = BlogPost.objects.published(for_user=request.user)
     blog_posts = Book.objects.published(for_user=request.user)

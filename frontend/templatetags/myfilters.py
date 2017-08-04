@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 import os
 
+from django.template.defaultfilters import stringfilter
+from django.utils.html import strip_tags
+
 try:
     from urllib.parse import quote, unquote
 except ImportError:
@@ -325,7 +328,10 @@ def get_item(dictionary, key):
 
 @register.filter
 def get_meta_title(queryset):
-    return queryset._meta_title
+    if queryset.titlezh:
+        return queryset.titlezh
+    else:
+        return queryset._meta_title
 
 
 @register.inclusion_tag("includes/pagination.html", takes_context=True)
@@ -521,6 +527,7 @@ def my_thumbnail(image_url, width, height, upscale=True, quality=95, left=.5,
             pass
         return image_url
     return thumb_url
+
 
 
 @register.filter

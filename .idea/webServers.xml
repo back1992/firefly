@@ -3,8 +3,16 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="ssh://root@122.114.34.108:2222/usr/bin/python" name="ssh://root@122.114.34.108:2222/usr/bin/python" url="http://122.114.34.108:8000">
-        <fileTransfer host="122.114.34.108" port="2222" rootFolder="/data/project/firefly" accessType="SFTP">
+        <fileTransfer host="122.114.34.108" port="2222" rootFolder="/data/mydocker/firefly" accessType="SFTP">
           <option name="port" value="2222" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="a74b622a-44f4-4a76-9384-bdca67d8fc45" name="aliyun" url="http://47.94.7.112">
+        <fileTransfer host="47.94.7.112" port="22" rootFolder="/home" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
         </fileTransfer>
       </webServer>
     </option>

@@ -52,25 +52,26 @@ class AuthorAdmin(admin.ModelAdmin):
 
 admin.site.register(Author, AuthorAdmin)
 
-book_fieldsets = deepcopy(DisplayableAdmin.fieldsets)
-book_fieldsets[0][1]["fields"].insert(1, "categories")
-book_fieldsets[0][1]["fields"].extend(["content", "allow_comments"])
-book_list_display = ["title", "user", "status", "admin_link"]
-if settings.BLOG_USE_FEATURED_IMAGE:
-    book_fieldsets[0][1]["fields"].insert(-2, "featured_image")
-    book_list_display.insert(0, "admin_thumb")
-book_fieldsets = list(book_fieldsets)
-book_fieldsets.insert(1, (_("Other posts"), {
-    "classes": ("collapse-closed",),
-    "fields": ("related_posts",)}))
-book_list_filter = deepcopy(DisplayableAdmin.list_filter) + ("categories",)
+# book_fieldsets = deepcopy(DisplayableAdmin.fieldsets)
+# print(book_fieldsets)
+# book_fieldsets[0][1]["fields"].insert(1, "categories")
+# book_fieldsets[0][1]["fields"].extend(["content", "allow_comments"])
+# book_list_display = ["title", "user", "status", "admin_link", 'titlezh', 'npid', 'author', 'publisher']
+# if settings.BLOG_USE_FEATURED_IMAGE:
+#     book_fieldsets[0][1]["fields"].insert(-2, "featured_image")
+#     book_list_display.insert(0, "admin_thumb")
+# book_fieldsets = list(book_fieldsets)
+# book_fieldsets.insert(1, (_("Other posts"), {
+#     "classes": ("collapse-closed",),
+#     "fields": ("related_posts",)}))
+# book_list_filter = deepcopy(DisplayableAdmin.list_filter) + ("categories",)
 
 
-class BookAdmin(BlogPostAdmin):
-    pass
-
-
-admin.site.register(Book, BookAdmin)
+# class BookAdmin(BlogPostAdmin):
+#     pass
+#
+#
+# admin.site.register(Book, BookAdmin)
 
 
 class BookCategoryAdmin(OrderedModelAdmin):
@@ -191,15 +192,25 @@ admin.site.register(Chapter, ChapterAdmin)
 # #         url = reverse('home')
 # #         return url
 #
-#
-# class BookAdmin(admin.ModelAdmin):
-#     # date_hierarchy = 'pub_date'
-#     # fields = ('title', 'titlezh', 'npid', 'author', 'publisher', 'categories', 'cover', 'description', 'is_published')
-#     # readonly_fields = ('image_tag',)
-#     # list_display = ('title', 'titlezh', 'npid', 'slug', 'author', 'publisher', 'cover', 'is_published', 'custom_action')
-#     # list_display_link = ('title', 'npid', 'titlezh',)
-#     # list_filter = ('categories',)
-#     pass
-#
-#
+
+blog_fieldsets = deepcopy(BlogPostAdmin.fieldsets)# class BookAdmin(admin.ModelAdmin):
+blog_fieldsets[0][1]["fields"].insert(-6, "titlezh")
+blog_fieldsets[0][1]["fields"].insert(-6, "author")
+blog_fieldsets[0][1]["fields"].insert(-6, "publisher")
+blog_fieldsets[0][1]["fields"].insert(-6, "isbn")
+class BookAdmin(BlogPostAdmin):
+    # date_hierarchy = 'pub_date'
+    # fields = ('title', 'titlezh', 'npid', 'author', 'publisher', 'categories', 'cover', 'description', 'is_published')
+    # readonly_fields = ('image_tag',)
+    # list_display = ('title', 'titlezh', 'npid', 'slug', 'author', 'publisher', 'cover', 'is_published', 'custom_action')
+    # list_display_link = ('title', 'npid', 'titlezh',)
+    # list_filter = ('categories',)
+    # pass
+    # exclude = ('isbn',)
+
 # admin.site.register(Book, BookAdmin)
+
+    fieldsets = blog_fieldsets
+
+# admin.site.unregister(BlogPost)
+admin.site.register(Book, BookAdmin)

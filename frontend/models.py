@@ -168,7 +168,10 @@ class Book(BlogPost, HitCountMixin):
         # from django.urls import reverse
         # return reverse(url_name, args=[str(self.slug)])
         self.slug = self.get_slug()
-        return "/frontend/bookdetail/%s/" % self.slug
+        return u"/frontend/bookdetail/%s/" % self.slug
+
+    def __str__(self):
+        return str(self.title)
 
 
 Book._meta.get_field('categories').verbose_name = u'分类名称'
@@ -183,6 +186,7 @@ Book._meta.get_field('keywords').verbose_name = u'标签'
 Book._meta.get_field('_meta_title').verbose_name = u'中文书名'
 Book._meta.get_field('featured_image').verbose_name = u'封面'
 Book._meta.get_field('related_posts').verbose_name = u'相关书籍和章节'
+
 
 
 @python_2_unicode_compatible  # only if you need to support Python 2
